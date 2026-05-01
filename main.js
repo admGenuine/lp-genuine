@@ -122,6 +122,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }, STEP_DURATION);
     }
 
+    // Services Carousel
+    const svcTrack = document.getElementById('svc-track');
+    const svcPrev  = document.getElementById('svc-prev');
+    const svcNext  = document.getElementById('svc-next');
+
+    if (svcTrack && svcPrev && svcNext) {
+        const svcCards = svcTrack.querySelectorAll('.svc-card');
+        let svcIndex = 0;
+
+        function updateSvcCarousel() {
+            const gap = parseFloat(getComputedStyle(svcTrack).columnGap) || 24;
+            const wrap = svcTrack.parentElement;
+            const cardWidth = svcCards[0].offsetWidth;
+            const totalWidth = svcCards.length * cardWidth + (svcCards.length - 1) * gap;
+            const maxTranslate = Math.max(0, totalWidth - wrap.clientWidth);
+            svcIndex = Math.max(0, Math.min(svcIndex, svcCards.length - 1));
+            const translate = Math.min(svcIndex * (cardWidth + gap), maxTranslate);
+            svcTrack.style.transform = `translateX(-${translate}px)`;
+            svcPrev.style.opacity = translate === 0 ? '0.3' : '1';
+            svcNext.style.opacity = translate >= maxTranslate ? '0.3' : '1';
+        }
+
+        svcPrev.addEventListener('click', () => { svcIndex--; updateSvcCarousel(); });
+        svcNext.addEventListener('click', () => { svcIndex++; updateSvcCarousel(); });
+        window.addEventListener('resize', updateSvcCarousel);
+        updateSvcCarousel();
+        window.addEventListener('load', updateSvcCarousel);
+
+
+        // Dots de paginação (visíveis apenas no mobile via CSS)
+        const svcDotsEl = document.getElementById('svc-dots');
+        if (svcDotsEl) {
+            const wrap = svcTrack.parentElement;
+
+            svcCards.forEach((_, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'svc-dot' + (i === 0 ? ' active' : '');
+                btn.setAttribute('aria-label', `Ir para item ${i + 1}`);
+                btn.addEventListener('click', () => {
+                    const cardWidth = svcCards[i].getBoundingClientRect().width;
+                    wrap.scrollTo({ left: i * (cardWidth + 24), behavior: 'smooth' });
+                });
+                svcDotsEl.appendChild(btn);
+            });
+
+            const dots = svcDotsEl.querySelectorAll('.svc-dot');
+            wrap.addEventListener('scroll', () => {
+                const cardWidth = svcCards[0].getBoundingClientRect().width;
+                const idx = Math.round(wrap.scrollLeft / (cardWidth + 24));
+                dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+            }, { passive: true });
+        }
+    }
+
     // Cases Carousel
     const track = document.getElementById('results-track');
     const prevBtn = document.getElementById('carousel-prev');
