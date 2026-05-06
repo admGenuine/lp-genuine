@@ -739,9 +739,8 @@ input:focus, select:focus {
 
 .card-media img {
     width: 100%;
-    height: 320px;
-    object-fit: cover;
-    object-position: top center;
+    max-height: 420px;
+    object-fit: contain;
     display: block;
 }
 
@@ -961,6 +960,7 @@ input:focus, select:focus {
 }
 
 @media (max-width: 768px) {
+    .services-header h2 { font-size: 1.2rem; }
     .svc-arrow { display: none; }
     .services-outer { padding: 0; gap: 0; }
     .services-track-wrap {
