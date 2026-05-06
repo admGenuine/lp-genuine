@@ -677,7 +677,7 @@ input:focus, select:focus {
 }
 
 @media (max-width: 480px) {
-    .ab-showcase { gap: 0.75rem; padding-left: 2rem; }
+    .ab-showcase { gap: 0.75rem; justify-content: center; }
 }
 
 /* Language Section — Antes & Depois */
@@ -1423,7 +1423,7 @@ input:focus, select:focus {
     }
 
     /* A/B showcase — keep side by side, tighten spacing */
-    .ab-showcase { gap: 0.75rem; padding-left: 2rem; }
+    .ab-showcase { gap: 0.75rem; justify-content: center; }
     /* Hide text overlay on videos */
     .frame-overlay { display: none; }
 
