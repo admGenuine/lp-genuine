@@ -809,6 +809,8 @@ input:focus, select:focus {
 /* Carousel */
 .svc-carousel {
     position: relative;
+    max-width: 860px;
+    margin: 0 auto;
 }
 
 .svc-viewport {
