@@ -890,9 +890,16 @@ input:focus, select:focus {
 
 @media (max-width: 768px) {
     .services-header h2 { font-size: 1.2rem; }
-    .svc-btn { width: 2.4rem; height: 2.4rem; }
-    .svc-btn-prev { left: 0.5rem; }
-    .svc-btn-next { right: 0.5rem; }
+    .svc-btn { display: none; }
+    .svc-viewport {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+    }
+    .svc-viewport::-webkit-scrollbar { display: none; }
+    .svc-track { transform: none !important; }
+    .svc-slide { scroll-snap-align: start; }
 }
 
 /* Results Grid — Carousel */

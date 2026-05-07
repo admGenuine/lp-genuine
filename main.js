@@ -124,42 +124,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Services Carousel
     (function () {
-        const track   = document.getElementById('svc-track');
-        const prevBtn = document.getElementById('svc-prev');
-        const nextBtn = document.getElementById('svc-next');
-        const dotsEl  = document.getElementById('svc-dots');
+        const track    = document.getElementById('svc-track');
+        const prevBtn  = document.getElementById('svc-prev');
+        const nextBtn  = document.getElementById('svc-next');
+        const dotsEl   = document.getElementById('svc-dots');
         if (!track) return;
 
-        const slides = track.querySelectorAll('.svc-slide');
-        const total  = slides.length;
+        const viewport = track.parentElement; // .svc-viewport
+        const slides   = track.querySelectorAll('.svc-slide');
+        const total    = slides.length;
         let idx = 0;
+
+        const isMobile = () => window.innerWidth <= 768;
 
         // Build dots
         slides.forEach((_, i) => {
             const btn = document.createElement('button');
             btn.className = 'svc-dot' + (i === 0 ? ' active' : '');
             btn.setAttribute('aria-label', `Slide ${i + 1}`);
-            btn.addEventListener('click', () => goTo(i));
+            btn.addEventListener('click', () => {
+                if (isMobile()) {
+                    viewport.scrollTo({ left: i * viewport.clientWidth, behavior: 'smooth' });
+                } else {
+                    goTo(i);
+                }
+            });
             dotsEl.appendChild(btn);
         });
+
+        function syncDots(n) {
+            dotsEl.querySelectorAll('.svc-dot').forEach((d, i) => d.classList.toggle('active', i === n));
+        }
 
         function goTo(n) {
             idx = Math.max(0, Math.min(n, total - 1));
             track.style.transform = `translateX(-${idx * 100}%)`;
             if (prevBtn) prevBtn.style.opacity = idx === 0 ? '0.3' : '1';
             if (nextBtn) nextBtn.style.opacity = idx === total - 1 ? '0.3' : '1';
-            dotsEl.querySelectorAll('.svc-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+            syncDots(idx);
         }
 
         if (prevBtn) prevBtn.addEventListener('click', () => goTo(idx - 1));
         if (nextBtn) nextBtn.addEventListener('click', () => goTo(idx + 1));
 
-        // Touch swipe
-        let startX = 0;
-        track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-        track.addEventListener('touchend', e => {
-            const dx = e.changedTouches[0].clientX - startX;
-            if (Math.abs(dx) > 50) goTo(dx < 0 ? idx + 1 : idx - 1);
+        // Sync dots with native scroll (mobile)
+        viewport.addEventListener('scroll', () => {
+            if (!isMobile()) return;
+            const n = Math.round(viewport.scrollLeft / viewport.clientWidth);
+            syncDots(n);
         }, { passive: true });
 
         goTo(0);
