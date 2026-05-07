@@ -830,7 +830,7 @@ input:focus, select:focus {
 }
 
 .svc-card {
-    width: clamp(360px, 32vw, 500px);
+    width: clamp(480px, 42vw, 680px);
     flex-shrink: 0;
     background: #0d0d0d;
     border: 1px solid rgba(255, 255, 255, 0.07);
