@@ -784,12 +784,11 @@ input:focus, select:focus {
 }
 
 /* Services Section */
+/* ── Services Section ─────────────────────────────────── */
 .services-section {
     padding: var(--spacing-lg) 0;
     background-color: var(--bg-color);
 }
-
-.text-center { text-align: center; }
 
 .services-header {
     text-align: center;
@@ -805,130 +804,67 @@ input:focus, select:focus {
     text-transform: uppercase;
 }
 
-.services-header h2 strong {
-    font-weight: 800;
+.services-header h2 strong { font-weight: 800; }
+
+/* Carousel */
+.svc-carousel {
+    position: relative;
 }
 
-.services-outer {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    max-width: calc(var(--container-max) + 2 * 1.5rem);
-    margin: 0 auto;
-    padding: 0 1.5rem;
-}
-
-.services-track-wrap {
+.svc-viewport {
     overflow: hidden;
-    flex: 1;
-}
-
-.services-track {
-    display: flex;
-    gap: 1.5rem;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.svc-card {
-    width: clamp(480px, 42vw, 680px);
-    flex-shrink: 0;
-    background: #0d0d0d;
-    border: 1px solid rgba(255, 255, 255, 0.07);
     border-radius: 16px;
-    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.svc-card-img {
-    padding: 0;
-    background: #111;
+.svc-track {
+    display: flex;
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
 }
 
-.svc-card-img img {
+.svc-slide {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.svc-slide img {
     width: 100%;
     height: auto;
     display: block;
 }
 
-.svc-num {
-    font-size: 4rem;
-    font-weight: 800;
-    color: rgba(255, 255, 255, 0.04);
-    line-height: 1;
-    display: block;
-    margin-bottom: -0.5rem;
-}
-
-.svc-card h3 {
-    font-size: 1.7rem;
-    font-weight: 500;
-    color: var(--text-white);
-    line-height: 1.15;
-    text-transform: uppercase;
-    margin: 0;
-}
-
-.svc-accent {
-    color: var(--primary-red);
-    font-weight: 800;
-}
-
-.svc-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-}
-
-.svc-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    font-size: 0.9rem;
-    color: var(--text-grey);
-    line-height: 1.5;
-}
-
-.svc-list li::before {
-    content: '✓';
-    min-width: 1.35rem;
-    height: 1.35rem;
-    background: rgba(230, 30, 42, 0.1);
-    border: 1px solid rgba(230, 30, 42, 0.3);
-    border-radius: 4px;
-    color: var(--primary-red);
-    font-size: 0.65rem;
-    font-weight: 700;
-    line-height: 1.35rem;
-    text-align: center;
-    display: inline-block;
-    flex-shrink: 0;
-    margin-top: 0.05rem;
-}
-
-.svc-arrow {
-    width: 2.8rem;
-    height: 2.8rem;
+/* Arrow buttons — overlaid on the card */
+.svc-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
-    background: #111;
-    border: 1px solid var(--border-color);
-    color: var(--text-white);
+    background: rgba(10, 10, 10, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
+    transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    backdrop-filter: blur(6px);
+    z-index: 2;
 }
 
-.svc-arrow:hover {
+.svc-btn-prev { left: 1rem; }
+.svc-btn-next { right: 1rem; }
+
+.svc-btn:hover {
     background: var(--primary-red);
     border-color: var(--primary-red);
 }
 
+/* Dots */
 .svc-dots {
-    display: none;
+    display: flex;
     justify-content: center;
     gap: 0.5rem;
     margin-top: 1.25rem;
@@ -951,31 +887,10 @@ input:focus, select:focus {
 }
 
 @media (max-width: 768px) {
-    .svc-dots { display: flex; }
-}
-
-@media (max-width: 768px) {
     .services-header h2 { font-size: 1.2rem; }
-    .svc-arrow { display: none; }
-    .services-outer { padding: 0; gap: 0; }
-    .services-track-wrap {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scroll-snap-type: x mandatory;
-        scroll-padding-left: 1.5rem;
-        scrollbar-width: none;
-        padding-left: 1.5rem;
-    }
-    .services-track-wrap::-webkit-scrollbar { display: none; }
-    .services-track {
-        transform: none !important;
-        padding-right: 1.5rem;
-    }
-    .svc-card {
-        width: 82vw;
-        scroll-snap-align: start;
-    }
-    .svc-card-img img { width: 100%; height: auto; }
+    .svc-btn { width: 2.4rem; height: 2.4rem; }
+    .svc-btn-prev { left: 0.5rem; }
+    .svc-btn-next { right: 0.5rem; }
 }
 
 /* Results Grid — Carousel */

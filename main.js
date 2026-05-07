@@ -123,58 +123,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Services Carousel
-    const svcTrack = document.getElementById('svc-track');
-    const svcPrev  = document.getElementById('svc-prev');
-    const svcNext  = document.getElementById('svc-next');
+    (function () {
+        const track   = document.getElementById('svc-track');
+        const prevBtn = document.getElementById('svc-prev');
+        const nextBtn = document.getElementById('svc-next');
+        const dotsEl  = document.getElementById('svc-dots');
+        if (!track) return;
 
-    if (svcTrack && svcPrev && svcNext) {
-        const svcCards = svcTrack.querySelectorAll('.svc-card');
-        let svcIndex = 0;
+        const slides = track.querySelectorAll('.svc-slide');
+        const total  = slides.length;
+        let idx = 0;
 
-        function updateSvcCarousel() {
-            const gap = parseFloat(getComputedStyle(svcTrack).columnGap) || 24;
-            const wrap = svcTrack.parentElement;
-            const cardWidth = svcCards[0].offsetWidth;
-            const totalWidth = svcCards.length * cardWidth + (svcCards.length - 1) * gap;
-            const maxTranslate = Math.max(0, totalWidth - wrap.clientWidth);
-            svcIndex = Math.max(0, Math.min(svcIndex, svcCards.length - 1));
-            const translate = Math.min(svcIndex * (cardWidth + gap), maxTranslate);
-            svcTrack.style.transform = `translateX(-${translate}px)`;
-            svcPrev.style.opacity = translate === 0 ? '0.3' : '1';
-            svcNext.style.opacity = translate >= maxTranslate ? '0.3' : '1';
+        // Build dots
+        slides.forEach((_, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'svc-dot' + (i === 0 ? ' active' : '');
+            btn.setAttribute('aria-label', `Slide ${i + 1}`);
+            btn.addEventListener('click', () => goTo(i));
+            dotsEl.appendChild(btn);
+        });
+
+        function goTo(n) {
+            idx = Math.max(0, Math.min(n, total - 1));
+            track.style.transform = `translateX(-${idx * 100}%)`;
+            if (prevBtn) prevBtn.style.opacity = idx === 0 ? '0.3' : '1';
+            if (nextBtn) nextBtn.style.opacity = idx === total - 1 ? '0.3' : '1';
+            dotsEl.querySelectorAll('.svc-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
         }
 
-        svcPrev.addEventListener('click', () => { svcIndex--; updateSvcCarousel(); });
-        svcNext.addEventListener('click', () => { svcIndex++; updateSvcCarousel(); });
-        window.addEventListener('resize', updateSvcCarousel);
-        updateSvcCarousel();
-        window.addEventListener('load', updateSvcCarousel);
+        if (prevBtn) prevBtn.addEventListener('click', () => goTo(idx - 1));
+        if (nextBtn) nextBtn.addEventListener('click', () => goTo(idx + 1));
 
+        // Touch swipe
+        let startX = 0;
+        track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+        track.addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - startX;
+            if (Math.abs(dx) > 50) goTo(dx < 0 ? idx + 1 : idx - 1);
+        }, { passive: true });
 
-        // Dots de paginação (visíveis apenas no mobile via CSS)
-        const svcDotsEl = document.getElementById('svc-dots');
-        if (svcDotsEl) {
-            const wrap = svcTrack.parentElement;
-
-            svcCards.forEach((_, i) => {
-                const btn = document.createElement('button');
-                btn.className = 'svc-dot' + (i === 0 ? ' active' : '');
-                btn.setAttribute('aria-label', `Ir para item ${i + 1}`);
-                btn.addEventListener('click', () => {
-                    const cardWidth = svcCards[i].getBoundingClientRect().width;
-                    wrap.scrollTo({ left: i * (cardWidth + 24), behavior: 'smooth' });
-                });
-                svcDotsEl.appendChild(btn);
-            });
-
-            const dots = svcDotsEl.querySelectorAll('.svc-dot');
-            wrap.addEventListener('scroll', () => {
-                const cardWidth = svcCards[0].getBoundingClientRect().width;
-                const idx = Math.round(wrap.scrollLeft / (cardWidth + 24));
-                dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-            }, { passive: true });
-        }
-    }
+        goTo(0);
+    }());
 
     // Cases Carousel
     const track = document.getElementById('results-track');
