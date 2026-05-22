@@ -52,6 +52,11 @@ h1, h2, h3, h4 {
     color: var(--primary-red);
 }
 
+h2 .highlight {
+    font-weight: 800;
+    color: var(--text-white);
+}
+
 .highlight-black {
     color: #000;
     background: #fff;
@@ -591,15 +596,21 @@ input:focus, select:focus {
     align-items: center;
 }
 
+.about-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
 .about-eyebrow {
     color: var(--primary-red);
 }
 
 .about-headline {
-    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-size: clamp(1.2rem, 2.2vw, 1.9rem);
     line-height: 1.2;
     color: #0d0d0d;
     font-weight: 500;
+    text-transform: uppercase;
     margin: 0;
 }
 
@@ -683,6 +694,18 @@ input:focus, select:focus {
 /* Language Section — Antes & Depois */
 .language {
     padding: var(--spacing-lg) 0;
+}
+
+.language .eyebrow { text-align: center; }
+
+.language h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.2;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--text-white);
+    margin-bottom: 0;
+    text-align: center;
 }
 
 .mt-4 { margin-top: 3rem; }
@@ -909,14 +932,21 @@ input:focus, select:focus {
 
 .results-header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     margin-bottom: 2.5rem;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .results-header h2 {
     margin-bottom: 0;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.2;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--text-white);
+    text-align: center;
 }
 
 .carousel-nav {
@@ -1054,6 +1084,18 @@ input:focus, select:focus {
     padding: var(--spacing-lg) 0;
 }
 
+.assessment .eyebrow { text-align: center; }
+
+.assessment h2 {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.2;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--text-white);
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
 .feature-item {
     padding: 2rem;
     background: #0d0d0d;
@@ -1147,6 +1189,7 @@ input:focus, select:focus {
     z-index: 1;
     max-width: 700px;
     margin: 0 auto;
+    text-align: center;
 }
 
 .cta-final h2 {
@@ -1154,12 +1197,13 @@ input:focus, select:focus {
     margin-bottom: 1.2rem;
     line-height: 1.2;
     color: white;
-    text-transform: none;
+    text-transform: uppercase;
     font-weight: 500;
 }
 
 .cta-highlight {
     color: var(--cta-green);
+    font-weight: 800;
 }
 
 .cta-final p {
