@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro Realizado — Genuine Digital</title>
+    <meta name="description" content="Seu cadastro foi realizado com sucesso. Em breve um consultor Genuine entrará em contato.">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="./images/simbolo-genuine.svg">
     <link rel="stylesheet" href="./style.css">
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1581802199786484');
+    fbq('track', 'Lead');
+    </script>
+    <!-- End Meta Pixel Code -->
     <style>
         /* ── Notification bar ─────────────────────── */
         .ty-notify {
@@ -67,7 +82,6 @@
             grid-template-columns: repeat(4, 1fr);
             position: relative;
         }
-        /* horizontal connecting line behind circles */
         .ty-steps-grid::before {
             content: '';
             position: absolute;
@@ -208,6 +222,17 @@
     </style>
 </head>
 <body>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1581802199786484&ev=Lead&noscript=1"
+    /></noscript>
+
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="./Versão Padrão Mono Branca (1).svg" alt="Genuine" class="logo-img">
+            </div>
+        </div>
+    </header>
 
     <!-- Notification bar -->
     <div class="ty-notify">
@@ -325,6 +350,20 @@
 
     </main>
 
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="logo">
+                    <img src="./Simbolo Branco (1).svg" alt="Genuine" class="footer-logo">
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Genuine Digital Marketing. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
     <script>
         document.querySelectorAll('.ty-faq-q').forEach(btn => {
             btn.addEventListener('click', () => {
