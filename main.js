@@ -1,7 +1,6 @@
 // Mobile Menu and Scroll Interactions
 document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('.header');
-    const leadForm = document.getElementById('lead-form');
 
     // Scroll effect for header
     window.addEventListener('scroll', () => {
@@ -14,29 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Form Handling
-    if (leadForm) {
-        leadForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const formData = new FormData(leadForm);
-            const data = Object.fromEntries(formData.entries());
-            
-            console.log('Form submitted:', data);
-            
-            // Simple feedback
-            const btn = leadForm.querySelector('button');
-            const originalText = btn.textContent;
-            btn.textContent = 'ENVIANDO...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                alert('Obrigado! Em breve um de nossos especialistas entrará em contato.');
-                btn.textContent = originalText;
-                btn.disabled = false;
-                leadForm.reset();
-            }, 1500);
-        });
-    }
 
     // Intersection Observer for scroll animations
     const observerOptions = {
@@ -204,6 +180,45 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCarousel();
     }
 
+    // Assessment cards dots (mobile)
+    (function () {
+        const track = document.getElementById('assessment-track');
+        const dotsEl = document.getElementById('assessment-dots');
+        if (!track || !dotsEl) return;
+
+        const cards = track.querySelectorAll('.feature-item');
+        cards.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'adot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', `Card ${i + 1}`);
+            dot.addEventListener('click', () => {
+                track.scrollTo({ left: i * track.clientWidth, behavior: 'smooth' });
+            });
+            dotsEl.appendChild(dot);
+        });
+
+        track.addEventListener('scroll', () => {
+            const idx = Math.round(track.scrollLeft / track.clientWidth);
+            dotsEl.querySelectorAll('.adot').forEach((d, i) => d.classList.toggle('active', i === idx));
+        }, { passive: true });
+    }());
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.parentElement;
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => {
+                i.classList.remove('open');
+                i.querySelector('.faq-icon').textContent = '↓';
+            });
+            if (!isOpen) {
+                item.classList.add('open');
+                btn.querySelector('.faq-icon').textContent = '←';
+            }
+        });
+    });
+
     // Smooth scroll for all anchor buttons
     document.querySelectorAll('a[href^="#"]').forEach(link => {
         link.addEventListener('click', (e) => {
@@ -217,6 +232,23 @@ document.addEventListener('DOMContentLoaded', () => {
             window.scrollTo({ top, behavior: 'smooth' });
         });
     });
+
+    // Auto-play result videos on scroll into view
+    const resultVideos = document.querySelectorAll('.result-video-el');
+    if (resultVideos.length) {
+        const videoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const video = entry.target;
+                if (entry.isIntersecting) {
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        resultVideos.forEach(video => videoObserver.observe(video));
+    }
 
     // Ripple animation on CTA buttons
     document.querySelectorAll('.btn-primary, .btn-dark, .btn-roas, .btn-banner').forEach(btn => {

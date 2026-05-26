@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Realizado — Genuine Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="./images/simbolo-genuine.svg">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        /* ── Notification bar ─────────────────────── */
+        .ty-notify {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1.5rem;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+        }
+        .ty-notify-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #22c55e;
+            flex-shrink: 0;
+            animation: dot-pulse 1.8s ease-in-out infinite;
+        }
+        @keyframes dot-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%       { opacity: 0.55; transform: scale(0.8); }
+        }
+
+        /* ── Success hero ─────────────────────────── */
+        .ty-hero {
+            text-align: center;
+            padding: 4rem 0 3rem;
+        }
+        .ty-hero h1 {
+            font-size: clamp(2rem, 6vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .ty-hero-highlight {
+            display: inline-block;
+            background-color: var(--primary-red);
+            padding: 0.1em 0.4em;
+            color: #fff;
+        }
+        .ty-hero-sub {
+            font-size: 1rem;
+            color: var(--text-grey);
+            margin-top: 0.5rem;
+        }
+
+        /* ── Steps ────────────────────────────────── */
+        .ty-steps {
+            padding: 2rem 0 4rem;
+        }
+        .ty-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            position: relative;
+        }
+        /* horizontal connecting line behind circles */
+        .ty-steps-grid::before {
+            content: '';
+            position: absolute;
+            top: 29px;
+            left: calc(100% / 8);
+            right: calc(100% / 8);
+            height: 1px;
+            background-color: var(--border-color);
+            z-index: 0;
+        }
+        .ty-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 0 1.25rem;
+        }
+        .ty-step-circle {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--text-grey);
+            background-color: var(--bg-color);
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1.25rem;
+            flex-shrink: 0;
+        }
+        .ty-step.active .ty-step-circle {
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+        }
+        .ty-step h3 {
+            font-size: 0.88rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 0.6rem;
+            color: var(--text-white);
+        }
+        .ty-step h3 strong { font-weight: 800; }
+        .ty-step p {
+            font-size: 0.78rem;
+            color: var(--text-grey);
+            line-height: 1.65;
+        }
+        .ty-step p strong { color: var(--text-white); font-weight: 700; }
+
+        /* ── FAQ ──────────────────────────────────── */
+        .ty-faq {
+            padding: 3rem 0 5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .ty-faq-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .ty-faq-title {
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+        .ty-faq-sub {
+            font-size: 0.9rem;
+            color: var(--text-grey);
+            line-height: 1.6;
+        }
+        .ty-faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .ty-faq-item {
+            background-color: rgba(235, 50, 50, 0.07);
+            border: 1px solid rgba(235, 50, 50, 0.28);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .ty-faq-q {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.1rem 1.25rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-white);
+            user-select: none;
+        }
+        .ty-faq-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+            transition: transform 0.25s ease;
+            font-style: normal;
+        }
+        .ty-faq-item.open .ty-faq-icon {
+            transform: rotate(-90deg);
+        }
+        .ty-faq-a {
+            font-size: 0.88rem;
+            color: var(--text-grey);
+            line-height: 1.75;
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 1.25rem;
+            transition: max-height 0.35s ease, padding 0.3s ease;
+        }
+        .ty-faq-item.open .ty-faq-a {
+            max-height: 400px;
+            padding: 0 1.25rem 1.25rem;
+        }
+
+        /* ── Responsive ───────────────────────────── */
+        @media (max-width: 768px) {
+            .ty-steps-grid {
+                grid-template-columns: 1fr;
+                gap: 1.75rem;
+            }
+            .ty-steps-grid::before { display: none; }
+            .ty-step {
+                flex-direction: row;
+                text-align: left;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 0;
+            }
+            .ty-step-circle { margin-bottom: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Notification bar -->
+    <div class="ty-notify">
+        <span class="ty-notify-dot"></span>
+        <span>Seu cadastro foi concluído. Em <strong>até 1 hora</strong> um consultor falará com você!</span>
+    </div>
+
+    <main>
+
+        <!-- Success hero -->
+        <section class="ty-hero">
+            <div class="container">
+                <h1>
+                    Seu cadastro foi<br>
+                    <span class="ty-hero-highlight">realizado com sucesso</span>
+                </h1>
+                <p class="ty-hero-sub">Um especialista da Genuine entrará em contato em até 1h.</p>
+            </div>
+        </section>
+
+        <!-- Steps -->
+        <section class="ty-steps">
+            <div class="container">
+                <div class="ty-steps-grid">
+
+                    <div class="ty-step active">
+                        <div class="ty-step-circle">01</div>
+                        <div>
+                            <h3>Solicitação para <strong>análise gratuita</strong></h3>
+                            <p>Ao preencher o formulário, <strong>nosso time entrará em contato</strong> com você em até 1h, por <strong>ligação ou via Whatsapp.</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="ty-step">
+                        <div class="ty-step-circle">02</div>
+                        <div>
+                            <h3>Ligação com um <strong>consultor Genuine</strong></h3>
+                            <p>Nosso consultor é treinado para entender o <strong>atual momento do seu negócio.</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="ty-step">
+                        <div class="ty-step-circle">03</div>
+                        <div>
+                            <h3>Análise gratuita <strong>do seu negócio</strong></h3>
+                            <p>Receba um diagnóstico personalizado com <strong>direcionamentos sobre marketing e vendas.</strong></p>
+                        </div>
+                    </div>
+
+                    <div class="ty-step">
+                        <div class="ty-step-circle">04</div>
+                        <div>
+                            <h3>Aceleração do <strong>seu crescimento</strong></h3>
+                            <p>É hora de planejar e executar as melhores estratégias para <strong>impulsionar o crescimento da sua empresa.</strong></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="ty-faq">
+            <div class="container">
+                <div class="ty-faq-header">
+                    <h2 class="ty-faq-title">Perguntas Frequentes</h2>
+                    <p class="ty-faq-sub">Ficou com alguma dúvida?<br>Talvez ela esteja aqui.</p>
+                </div>
+
+                <div class="ty-faq-list">
+
+                    <div class="ty-faq-item">
+                        <div class="ty-faq-q">
+                            <span>Quanto tempo para ver os primeiros resultados?</span>
+                            <i class="ty-faq-icon">↓</i>
+                        </div>
+                        <div class="ty-faq-a">
+                            Indústrias típicas começam a ver aumento no volume de leads qualificados entre 14 e 21 dias após o início das campanhas. Crescimento consistente no faturamento ocorre geralmente entre 30–45 dias, dependendo do momento atual da sua indústria.
+                        </div>
+                    </div>
+
+                    <div class="ty-faq-item">
+                        <div class="ty-faq-q">
+                            <span>Qual o investimento necessário?</span>
+                            <i class="ty-faq-icon">↓</i>
+                        </div>
+                        <div class="ty-faq-a">
+                            Nossos planos iniciam em R$ 2.500/mês, com contratos de 3, 6 ou 12 meses. Para uma análise personalizada do seu potencial de retorno, agende sua consultoria gratuita.
+                        </div>
+                    </div>
+
+                    <div class="ty-faq-item">
+                        <div class="ty-faq-q">
+                            <span>Vocês atenderão minha cidade ou região específica?</span>
+                            <i class="ty-faq-icon">↓</i>
+                        </div>
+                        <div class="ty-faq-a">
+                            Sim. Personalizamos as campanhas para a localização e o público da sua indústria, focando nos clientes que realmente importam para o seu negócio. Já atendemos indústrias em todas as regiões do Brasil.
+                        </div>
+                    </div>
+
+                    <div class="ty-faq-item">
+                        <div class="ty-faq-q">
+                            <span>E se já tivermos tentado marketing digital sem sucesso?</span>
+                            <i class="ty-faq-icon">↓</i>
+                        </div>
+                        <div class="ty-faq-a">
+                            É muito comum. A maioria das indústrias que nos procura já tentou alguma forma de marketing digital sem resultado. Nosso diferencial é a especialização no B2B industrial: entendemos seu ciclo de venda, seu comprador e o que de fato gera pedido no seu segmento.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.querySelectorAll('.ty-faq-q').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.ty-faq-item').forEach(i => {
+                    i.classList.remove('open');
+                    i.querySelector('.ty-faq-icon').textContent = '↓';
+                });
+                if (!isOpen) {
+                    item.classList.add('open');
+                    btn.querySelector('.ty-faq-icon').textContent = '←';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
