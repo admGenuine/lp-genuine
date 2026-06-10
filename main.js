@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, observerOptions);
 
-    document.querySelectorAll('.feat-item, .lang-card').forEach(el => {
+    document.querySelectorAll('.feature-item, .lang-card').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'all 0.6s ease-out';
@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const footerEl = document.querySelector('.footer');
 
     const updateBanner = () => {
+        if (!fixedBanner || !footerEl) return;
         const scrolled = window.scrollY > 500;
         if (scrolled) {
             fixedBanner.classList.add('visible');
@@ -154,12 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }());
 
     // Cases Carousel
-    const track = document.getElementById('results-track');
-    const prevBtn = document.getElementById('carousel-prev');
-    const nextBtn = document.getElementById('carousel-next');
+    const resultsTrack = document.getElementById('results-track');
+    const casesPrev = document.getElementById('carousel-prev');
+    const casesNext = document.getElementById('carousel-next');
 
-    if (track && prevBtn && nextBtn) {
-        const cards = track.querySelectorAll('.result-card');
+    if (resultsTrack && casesPrev && casesNext) {
+        const cards = resultsTrack.querySelectorAll('.result-card');
         const visibleCount = () => window.innerWidth < 768 ? 1 : window.innerWidth < 1024 ? 2 : 3;
         let currentIndex = 0;
 
@@ -168,14 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const maxIndex = cards.length - visible;
             currentIndex = Math.max(0, Math.min(currentIndex, maxIndex));
             const cardWidth = cards[0].getBoundingClientRect().width;
-            const gap = 24; // 1.5rem
-            track.style.transform = `translateX(-${currentIndex * (cardWidth + gap)}px)`;
-            prevBtn.style.opacity = currentIndex === 0 ? '0.3' : '1';
-            nextBtn.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
+            const gap = 24;
+            resultsTrack.style.transform = `translateX(-${currentIndex * (cardWidth + gap)}px)`;
+            casesPrev.style.opacity = currentIndex === 0 ? '0.3' : '1';
+            casesNext.style.opacity = currentIndex >= maxIndex ? '0.3' : '1';
         }
 
-        prevBtn.addEventListener('click', () => { currentIndex--; updateCarousel(); });
-        nextBtn.addEventListener('click', () => { currentIndex++; updateCarousel(); });
+        casesPrev.addEventListener('click', () => { currentIndex--; updateCarousel(); });
+        casesNext.addEventListener('click', () => { currentIndex++; updateCarousel(); });
         window.addEventListener('resize', updateCarousel);
         updateCarousel();
     }
@@ -203,21 +204,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
     }());
 
-    // FAQ accordion
-    document.querySelectorAll('.faq-q').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const item = btn.parentElement;
-            const isOpen = item.classList.contains('open');
-            document.querySelectorAll('.faq-item').forEach(i => {
-                i.classList.remove('open');
-                i.querySelector('.faq-icon').textContent = '↓';
+    // FAQ accordion — handles both index (.faq-q) and obrigado (.ty-faq-q)
+    function initFaqAccordion(qSelector, itemSelector, iconSelector) {
+        document.querySelectorAll(qSelector).forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll(itemSelector).forEach(i => {
+                    i.classList.remove('open');
+                    i.querySelector(iconSelector).textContent = '↓';
+                });
+                if (!isOpen) {
+                    item.classList.add('open');
+                    btn.querySelector(iconSelector).textContent = '←';
+                }
             });
-            if (!isOpen) {
-                item.classList.add('open');
-                btn.querySelector('.faq-icon').textContent = '←';
-            }
         });
-    });
+    }
+
+    initFaqAccordion('.faq-q', '.faq-item', '.faq-icon');
+    initFaqAccordion('.ty-faq-q', '.ty-faq-item', '.ty-faq-icon');
 
     // Smooth scroll for all anchor buttons
     document.querySelectorAll('a[href^="#"]').forEach(link => {

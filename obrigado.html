@@ -21,9 +21,6 @@
     fbq('init', '1581802199786484');
     fbq('track', 'Lead');
     </script>
-    <script>
-    fbq('track', 'Lead');
-    </script>
     <!-- End Meta Pixel Code -->
     <style>
         /* ── Notification bar ─────────────────────── */
@@ -367,21 +364,6 @@
     </footer>
 
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
-    <script>
-        document.querySelectorAll('.ty-faq-q').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const item = btn.parentElement;
-                const isOpen = item.classList.contains('open');
-                document.querySelectorAll('.ty-faq-item').forEach(i => {
-                    i.classList.remove('open');
-                    i.querySelector('.ty-faq-icon').textContent = '↓';
-                });
-                if (!isOpen) {
-                    item.classList.add('open');
-                    btn.querySelector('.ty-faq-icon').textContent = '←';
-                }
-            });
-        });
-    </script>
+    <script type="module" src="./main.js"></script>
 </body>
 </html>
