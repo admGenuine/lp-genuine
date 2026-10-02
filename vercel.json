@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/:path(.*)",
+      "has": [{ "type": "host", "value": "genuinedigital.com.br" }],
+      "destination": "https://www.genuinedigital.com.br/:path",
+      "permanent": true
+    }
+  ]
+}
