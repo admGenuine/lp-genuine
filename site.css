@@ -325,3 +325,9 @@ section.tight{padding-top:80px}
   body.menu-open{overflow:hidden}
   body.menu-open .float-cta{display:none}
 }
+
+/* chamada final: botão de WhatsApp para urgência */
+.cta-panel .urgent{color:var(--ink);font-weight:400;margin-top:14px}
+.cta-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn.outline.wa{gap:10px;padding:14px 22px;min-height:48px}
+@media (max-width:600px){.cta-panel{padding:28px 22px}.cta-actions{width:100%}.cta-actions .btn{width:100%;justify-content:space-between}.btn.outline.wa{justify-content:center}}
