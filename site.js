@@ -18,7 +18,7 @@
   function onScroll(){
     var y=window.scrollY;
     nav.classList.toggle('scrolled',y>8);
-    if(mobile.matches){
+    if(mobile.matches && !document.body.classList.contains('menu-open')){
       if(y>lastY+6 && y>72){nav.classList.add('hide');}
       else if(y<lastY-6 || y<=72){nav.classList.remove('hide');}
     }else{nav.classList.remove('hide');}
@@ -26,4 +26,18 @@
     var r=form.getBoundingClientRect();fl.classList.toggle('on',r.bottom<0);
   }
   window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  // Menu de três linhas no celular
+  var tg=document.getElementById('menuToggle'), mm=document.getElementById('mobileMenu');
+  function setMenu(open){
+    tg.setAttribute('aria-expanded',open?'true':'false');
+    tg.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');
+    mm.classList.toggle('open',open);
+    document.body.classList.toggle('menu-open',open);
+    if(open){nav.classList.remove('hide');}
+  }
+  tg.addEventListener('click',function(){setMenu(tg.getAttribute('aria-expanded')!=='true');});
+  mm.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false);});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){setMenu(false);}});
+  mobile.addEventListener('change',function(){if(!mobile.matches){setMenu(false);}});
 })();
