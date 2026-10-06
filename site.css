@@ -304,3 +304,7 @@ section.tight{padding-top:80px}
 
 .lc-form-iframe{display:block;width:100%;border:0;border-radius:10px;min-height:780px}
 @media (max-width:600px){.lc-form-iframe{min-height:920px}}
+
+/* menu no celular: sobe ao rolar para baixo, volta ao rolar para cima */
+@media (max-width:900px){.nav{transition:transform .28s ease,border-color .2s;will-change:transform}.nav.hide{transform:translateY(calc(-100% - env(safe-area-inset-top,0px)))}}
+@media (prefers-reduced-motion:reduce){.nav{transition:none}}
